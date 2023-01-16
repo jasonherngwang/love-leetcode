@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Difficulty {
+  easy
+  medium
+  hard
+}
+
+model Problem {
+  id         Int        @id @default(autoincrement())
+  name       String     @db.VarChar(255)
+  category   String     @db.VarChar(255)
+  difficulty Difficulty @default(easy)
+  source     String     @db.VarChar(255)
+  link       String     @db.VarChar(255)
+}
