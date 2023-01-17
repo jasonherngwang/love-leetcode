@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useRef, forwardRef } from 'react';
+import { useState } from 'react';
 import FilterProblems from './problem_filter';
 import Problem from '@/types/types';
-import Timer from '@/timer';
+import Timer from '@/app/timer';
 
 export type Filters = {
   neetcode: boolean;
@@ -30,11 +30,12 @@ export default function StartProblem({ problems }: { problems: any }) {
         (filters['userSubmitted'] && problem.source == 'user_submitted')
     );
     const random = Math.floor(Math.random() * filteredProblems.length);
-    setProblem(filteredProblems[random]);
+    const randomProblem = filteredProblems[random];
+    setProblem(randomProblem);
 
     let minutes = 25;
-    if (problem?.difficulty == 'medium') minutes = 40;
-    if (problem?.difficulty == 'hard') minutes = 60;
+    if (randomProblem.difficulty == 'medium') minutes = 40;
+    if (randomProblem.difficulty == 'hard') minutes = 60;
     startTime(minutes);
   };
 
@@ -101,6 +102,7 @@ export default function StartProblem({ problems }: { problems: any }) {
                   <span className="font-medium uppercase text-neutral-600 group-hover:text-neutral-500 md:text-lg">
                     ☝️ Go for it!
                   </span>
+                  <span>{problem.difficulty}</span>
                 </a>
               ) : (
                 <p className="text-2xl font-medium text-neutral-400">

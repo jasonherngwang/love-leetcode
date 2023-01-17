@@ -27,7 +27,14 @@ export default function Timer({ expiryTimestamp, clearTimer }: TimerProps) {
   return (
     <div>
       <div>
-        <span>{minutes}</span>:
+        {hours > 0 && <span>{hours}:</span>}
+        <span>
+          {minutes.toLocaleString('en-US', {
+            minimumIntegerDigits: 2,
+            useGrouping: false,
+          })}
+        </span>
+        :
         <span>
           {seconds.toLocaleString('en-US', {
             minimumIntegerDigits: 2,
