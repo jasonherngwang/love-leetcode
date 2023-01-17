@@ -1,3 +1,5 @@
+'use client';
+
 import { Filters } from './problem_start';
 
 type FilterProps = {

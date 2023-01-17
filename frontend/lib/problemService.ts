@@ -1,6 +1,7 @@
+import { API_URL } from '@/constants';
+
 export async function getProblems() {
-  /* Allow Next fetch to cache data */
-  const res = await fetch('http://localhost:3001/api/problems');
+  const res = await fetch(API_URL);
   const allProblems = await res.json();
   return allProblems;
 }

@@ -1,6 +1,7 @@
 import Problem from '@/types/types';
 
 function groupProblems(problems: Problem[]) {
+  // The order covered in Capstone
   const categoryOrder = [
     'General',
     'Pointers',
@@ -29,6 +30,7 @@ function groupProblems(problems: Problem[]) {
     sortOrder[category] = index;
   });
 
+  // Group problems array into nested object
   const groups = problems.reduce((result, problem) => {
     result[problem.category] = result[problem.category] || {};
     result[problem.category][problem.source] =
@@ -37,21 +39,8 @@ function groupProblems(problems: Problem[]) {
     return result;
   }, Object.create(null));
 
+  // Sort by category
   const groupEntries: any = Object.entries(groups);
-
-  groupEntries.forEach((group: any) => {
-    if (group[1].hasOwnProperty('capstone')) {
-      group[1]['capstone'].sort((a: Problem, b: Problem) =>
-        a.name.localeCompare(b.name)
-      );
-    }
-    if (group[1].hasOwnProperty('neetcode')) {
-      group[1]['neetcode'].sort((a: Problem, b: Problem) =>
-        a.name.localeCompare(b.name)
-      );
-    }
-  });
-
   groupEntries.sort((a: any, b: any) => sortOrder[a[0]] - sortOrder[b[0]]);
 
   return Object.fromEntries(groupEntries);

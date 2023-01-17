@@ -1,18 +1,18 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { getProblems } from '@/lib/problemService';
+
+import { useState, useRef, forwardRef } from 'react';
 import FilterProblems from './problem_filter';
 import Problem from '@/types/types';
+import Timer from '@/timer';
 
 export type Filters = {
   neetcode: boolean;
   userSubmitted: boolean;
 };
 
-export default function StartProblem() {
-  const [problem, setProblem] = useState(null);
-  const [problems, setProblems] = useState(Object.create(null));
-  const [time, setTime] = useState(null);
+export default function StartProblem({ problems }: { problems: any }) {
+  const [problem, setProblem] = useState<Problem | undefined>(undefined);
+  const [time, setTime] = useState<Date | null>(null);
   const [filters, setFilters] = useState({
     neetcode: false,
     userSubmitted: false,
@@ -31,15 +31,22 @@ export default function StartProblem() {
     );
     const random = Math.floor(Math.random() * filteredProblems.length);
     setProblem(filteredProblems[random]);
+
+    let minutes = 25;
+    if (problem?.difficulty == 'medium') minutes = 40;
+    if (problem?.difficulty == 'hard') minutes = 60;
+    startTime(minutes);
   };
 
-  useEffect(() => {
-    const fetchProblems = async () => {
-      const problems = await getProblems();
-      setProblems(problems);
-    };
-    void fetchProblems();
-  }, []);
+  const startTime = (minutes: number) => {
+    const newTime = new Date();
+    newTime.setSeconds(newTime.getSeconds() + 60 * minutes);
+    setTime(newTime);
+  };
+
+  const clearTimer = () => {
+    setTime(null);
+  };
 
   return (
     <div>
@@ -51,7 +58,19 @@ export default function StartProblem() {
             <h2 className="text-lg font-semibold uppercase tracking-wider text-neutral-500">
               Time
             </h2>
-            <div>{time}</div>
+            <div className="mt-6 text-center text-4xl font-medium text-red-700 md:text-7xl">
+              {time ? (
+                <Timer
+                  key={String(time)}
+                  expiryTimestamp={time}
+                  clearTimer={clearTimer}
+                />
+              ) : (
+                <div>
+                  <span>0:00</span>
+                </div>
+              )}
+            </div>
           </div>
           <button
             type="button"
@@ -73,9 +92,15 @@ export default function StartProblem() {
                   href={problem.link}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-2xl font-medium text-red-700 underline hover:text-red-600"
+                  className="group"
                 >
-                  {problem.name}
+                  <span className="text-lg font-medium text-red-700 underline group-hover:text-red-600 md:text-2xl">
+                    {problem.name}
+                  </span>
+                  <br />
+                  <span className="font-medium uppercase text-neutral-600 group-hover:text-neutral-500 md:text-lg">
+                    ☝️ Go for it!
+                  </span>
                 </a>
               ) : (
                 <p className="text-2xl font-medium text-neutral-400">

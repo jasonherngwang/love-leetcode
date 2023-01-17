@@ -1,5 +1,5 @@
 export default interface Problem {
-  id: string;
+  problem_id: string;
   name: string;
   category: string;
   difficulty: string;
