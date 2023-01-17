@@ -5,6 +5,11 @@ const prisma = new PrismaClient();
 
 async function getProblems() {
   const allProblems: ProblemWithId[] = await prisma.problem.findMany({
+    orderBy: [
+      {
+        name: 'asc',
+      },
+    ],
     select: {
       problem_id: true,
       name: true,
