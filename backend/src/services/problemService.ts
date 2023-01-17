@@ -1,37 +1,84 @@
 import { PrismaClient } from '@prisma/client';
-import { Problem } from '../types/types';
+import { Problem, ProblemWithId } from '../types/types';
 
 const prisma = new PrismaClient();
 
 async function getProblems() {
-  const allProblems = await prisma.problem.findMany();
+  const allProblems: ProblemWithId[] = await prisma.problem.findMany({
+    select: {
+      problem_id: true,
+      name: true,
+      category: true,
+      difficulty: true,
+      source: true,
+      link: true,
+    },
+  });
   return allProblems;
 }
 
-async function addProblem(problem: Problem) {
-  const addedProblem = await prisma.problem.create({
-    data: problem,
+async function getProblem(problemId: string) {
+  const problem: ProblemWithId | null = await prisma.problem.findUnique({
+    where: {
+      problem_id: problemId,
+    },
+    select: {
+      problem_id: true,
+      name: true,
+      category: true,
+      difficulty: true,
+      source: true,
+      link: true,
+    },
+  });
+  return problem;
+}
+
+async function addProblem(newProblem: Problem) {
+  const addedProblem: ProblemWithId | null = await prisma.problem.create({
+    data: newProblem,
+    select: {
+      problem_id: true,
+      name: true,
+      category: true,
+      difficulty: true,
+      source: true,
+      link: true,
+    },
   });
   return addedProblem;
 }
 
-async function updateProblem(id: string, updatedData: Problem) {
-  console.log(updatedData);
-  const updatedProblem = await prisma.problem.update({
+async function updateProblem(problemId: string, updatedData: Problem) {
+  const updatedProblem: ProblemWithId | null = await prisma.problem.update({
     where: {
-      id: Number(id),
+      problem_id: problemId,
     },
     data: updatedData,
+    select: {
+      problem_id: true,
+      name: true,
+      category: true,
+      difficulty: true,
+      source: true,
+      link: true,
+    },
   });
   return updatedProblem;
 }
 
-async function deleteProblem(id: string) {
+async function deleteProblem(problemId: string) {
   await prisma.problem.delete({
     where: {
-      id: Number(id),
+      problem_id: problemId,
     },
   });
 }
 
-export default { getProblems, addProblem, updateProblem, deleteProblem };
+export default {
+  getProblems,
+  getProblem,
+  addProblem,
+  updateProblem,
+  deleteProblem,
+};

@@ -15,9 +15,12 @@ enum Difficulty {
 
 model Problem {
   id         Int        @id @default(autoincrement())
+  problem_id String     @unique @default(uuid())
   name       String     @db.VarChar(255)
   category   String     @db.VarChar(255)
   difficulty Difficulty @default(easy)
   source     String     @db.VarChar(255)
   link       String     @db.VarChar(255)
+
+  @@index(fields: [problem_id])
 }
