@@ -32,7 +32,7 @@ export default function AddProblem({ fetchProblems }: AddProblemProps) {
 
     setName('');
     setCategory('General');
-    setDifficulty('Easy');
+    setDifficulty('easy');
     setLink('');
 
     await fetchProblems();
