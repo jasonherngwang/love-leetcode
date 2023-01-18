@@ -66,7 +66,7 @@ export default function AddProblem({ fetchProblems }: AddProblemProps) {
   return (
     <form
       onSubmit={(e) => add(e)}
-      className="mt-8 rounded-lg border border-neutral-300 p-4"
+      className="mt-10 rounded-lg border border-neutral-300 p-4"
     >
       <h2 className="mt-2 text-sm text-neutral-500 md:text-lg">
         Feel free to add problems you enjoyed:

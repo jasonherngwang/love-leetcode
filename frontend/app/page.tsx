@@ -6,6 +6,7 @@ import { groupProblems } from '@/lib/processing';
 
 import ProblemList from './problem_list';
 import StartProblem from './problem_start';
+import Voting from './voting';
 import AddProblem from './problem_add_form';
 
 export default function Home() {
@@ -52,6 +53,7 @@ export default function Home() {
         pattern.
       </p>
       <StartProblem problems={problems} />
+      <Voting />
       <AddProblem fetchProblems={fetchProblems} />
       <ProblemList problems={groupedProblems} fetchProblems={fetchProblems} />
     </main>
