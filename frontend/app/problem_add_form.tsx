@@ -12,9 +12,33 @@ export default function AddProblem({ fetchProblems }: AddProblemProps) {
   const [category, setCategory] = useState('General');
   const [difficulty, setDifficulty] = useState('easy');
   const [link, setLink] = useState('');
+  const [error, setError] = useState('');
+
+  const linkIsValid = () =>
+    link.slice(0, 30) === 'https://leetcode.com/problems/';
+
+  const setLinkInvalidError = () => {
+    setError(
+      'Link URL is invalid; must start with https://leetcode.com/problems/'
+    );
+  };
+
+  const handleLinkInput = (value: string) => {
+    setLink(value);
+    if (!linkIsValid()) {
+      setLinkInvalidError();
+    } else {
+      setError('');
+    }
+  };
 
   const add = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!linkIsValid()) {
+      setLinkInvalidError();
+      return;
+    }
 
     await fetch(API_URL, {
       method: 'POST',
@@ -34,6 +58,7 @@ export default function AddProblem({ fetchProblems }: AddProblemProps) {
     setCategory('General');
     setDifficulty('easy');
     setLink('');
+    setError('');
 
     await fetchProblems();
   };
@@ -43,7 +68,10 @@ export default function AddProblem({ fetchProblems }: AddProblemProps) {
       onSubmit={(e) => add(e)}
       className="mt-8 rounded-lg border border-neutral-300 p-4"
     >
-      <div className="flex gap-x-4 md:gap-x-8">
+      <h2 className="mt-2 text-sm text-neutral-500 md:text-lg">
+        Feel free to add problems you enjoyed:
+      </h2>
+      <div className="mt-4 flex gap-x-4 md:gap-x-8">
         <input
           type="text"
           name="name"
@@ -51,7 +79,7 @@ export default function AddProblem({ fetchProblems }: AddProblemProps) {
           value={name}
           required
           onChange={(e) => setName(e.target.value)}
-          className="placeholder-text-neutral-400 w-1/3 rounded-md border border-neutral-300 text-sm shadow-sm focus:border-red-700 focus:ring-red-700 md:text-base"
+          className="placeholder-text-neutral-300 w-1/3 rounded-md border border-neutral-300 text-sm shadow-sm focus:border-red-700 focus:ring-red-700 md:text-base"
         />
         <input
           type="text"
@@ -59,11 +87,12 @@ export default function AddProblem({ fetchProblems }: AddProblemProps) {
           placeholder="https://leetcode.com/problems/PROBLEM_NAME"
           value={link}
           required
-          onChange={(e) => setLink(e.target.value)}
-          className="placeholder-text-neutral-400 w-2/3 rounded-md border border-neutral-300 text-sm shadow-sm focus:border-red-700 focus:ring-red-700 md:text-base"
+          onChange={(e) => handleLinkInput(e.target.value)}
+          onBlur={(e) => handleLinkInput(e.target.value)}
+          className="placeholder-text-neutral-300 w-2/3 rounded-md border border-neutral-300 text-sm shadow-sm focus:border-red-700 focus:ring-red-700 md:text-base"
         />
       </div>
-      <div className="mt-4 flex gap-x-4 md:gap-x-8">
+      <div className="mt-4 flex flex-col gap-4 md:flex-row md:gap-x-8">
         <select
           name="category"
           value={category}
@@ -105,10 +134,12 @@ export default function AddProblem({ fetchProblems }: AddProblemProps) {
       </div>
       <button
         type="submit"
-        className="mt-6 rounded-md bg-red-800 py-2 px-4 font-medium tracking-wider text-white"
+        className="mt-6 mb-2 rounded-md bg-red-800 py-2 px-4 font-medium tracking-wider text-white"
       >
         Add Problem
       </button>
+      <br className="md:hidden" />
+      {error && <span className="text-red-700 md:ml-4">{error}</span>}
     </form>
   );
 }

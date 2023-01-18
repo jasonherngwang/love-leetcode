@@ -44,7 +44,7 @@ export default function Timer({ expiryTimestamp, clearTimer }: TimerProps) {
       </div>
       <button
         type="button"
-        className="mt-6 rounded-md border-2 py-2 px-4 text-lg font-medium text-red-800"
+        className="mt-6 rounded-md border-2 py-2 px-4 text-base font-semibold tracking-wide text-red-800 hover:bg-neutral-100 md:text-lg"
         onClick={() => clearTimer()}
       >
         Reset

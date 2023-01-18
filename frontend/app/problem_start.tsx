@@ -27,7 +27,7 @@ export default function StartProblem({ problems }: { problems: any }) {
       (problem: Problem) =>
         problem.source == 'capstone' ||
         (filters['neetcode'] && problem.source == 'neetcode') ||
-        (filters['userSubmitted'] && problem.source == 'user_submitted')
+        (filters['userSubmitted'] && problem.source == 'other')
     );
     const random = Math.floor(Math.random() * filteredProblems.length);
     const randomProblem = filteredProblems[random];
@@ -55,11 +55,11 @@ export default function StartProblem({ problems }: { problems: any }) {
 
       <div className="flex flex-col items-center">
         <div className="relative mt-4 grid h-60 w-full grid-cols-2 rounded-lg border-2 border-red-700 p-4">
-          <div className="flex flex-col items-center border-r pr-16">
-            <h2 className="text-lg font-semibold uppercase tracking-wider text-neutral-500">
+          <div className="flex flex-col items-center border-r pr-12 md:pr-16">
+            <h2 className="font-semibold uppercase tracking-wider text-neutral-500 md:text-lg">
               Time
             </h2>
-            <div className="mt-6 text-center text-4xl font-medium text-red-700 md:text-7xl">
+            <div className="mt-2 text-center text-4xl font-medium text-red-700 md:mt-6 md:text-7xl">
               {time ? (
                 <Timer
                   key={String(time)}
@@ -84,10 +84,10 @@ export default function StartProblem({ problems }: { problems: any }) {
             </div>
           </button>
           <div className="flex flex-col items-center pl-16">
-            <h2 className="text-lg font-semibold uppercase tracking-wider text-neutral-500">
+            <h2 className="font-semibold uppercase tracking-wider text-neutral-500 md:text-lg">
               Problem
             </h2>
-            <div className="mt-6 text-center">
+            <div className="mt-2 text-center md:mt-6">
               {problem ? (
                 <a
                   href={problem.link}
@@ -95,17 +95,16 @@ export default function StartProblem({ problems }: { problems: any }) {
                   rel="noreferrer"
                   className="group"
                 >
-                  <span className="text-lg font-medium text-red-700 underline group-hover:text-red-600 md:text-2xl">
+                  <p className="text-lg font-medium text-red-700 underline group-hover:text-red-600 md:text-2xl">
                     {problem.name}
-                  </span>
-                  <br />
-                  <span className="font-medium uppercase text-neutral-600 group-hover:text-neutral-500 md:text-lg">
-                    ☝️ Go for it!
-                  </span>
-                  <span>{problem.difficulty}</span>
+                  </p>
+                  <p className="mt-2 hidden text-sm sm:block">☝️</p>
+                  <p className="hidden text-lg font-medium uppercase text-neutral-600 group-hover:text-neutral-500 sm:block">
+                    Go for it!
+                  </p>
                 </a>
               ) : (
-                <p className="text-2xl font-medium text-neutral-400">
+                <p className="font-medium text-neutral-400 sm:text-2xl">
                   No problem selected yet
                 </p>
               )}

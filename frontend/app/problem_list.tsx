@@ -1,8 +1,17 @@
 'use client';
 
+import { API_URL } from '@/constants';
 import Problem from '@/types/types';
 
-export default function ProblemList({ problems }: { problems: any }) {
+interface ProblemListProps {
+  problems: any;
+  fetchProblems: () => Promise<void>;
+}
+
+export default function ProblemList({
+  problems,
+  fetchProblems,
+}: ProblemListProps) {
   return (
     <div className="mt-12">
       <h1 className="text-2xl font-bold md:text-3xl">Problems</h1>
@@ -14,6 +23,7 @@ export default function ProblemList({ problems }: { problems: any }) {
                 key={category}
                 categoryName={category}
                 categoryProblems={problems[category]}
+                fetchProblems={fetchProblems}
               />
             );
           })}
@@ -22,7 +32,11 @@ export default function ProblemList({ problems }: { problems: any }) {
   );
 }
 
-function ProblemCategory({ categoryName, categoryProblems }: any) {
+function ProblemCategory({
+  categoryName,
+  categoryProblems,
+  fetchProblems,
+}: any) {
   return (
     <div className="mt-8 md:mt-12">
       <h2 className="col-span-full border-b pb-2 text-xl font-medium">
@@ -37,7 +51,11 @@ function ProblemCategory({ categoryName, categoryProblems }: any) {
             {categoryProblems.hasOwnProperty('capstone') ? (
               categoryProblems['capstone']?.map((problem: Problem) => {
                 return (
-                  <ProblemItem key={problem.problem_id} problem={problem} />
+                  <ProblemItem
+                    key={problem.problem_id}
+                    problem={problem}
+                    fetchProblems={fetchProblems}
+                  />
                 );
               })
             ) : (
@@ -53,7 +71,11 @@ function ProblemCategory({ categoryName, categoryProblems }: any) {
             {categoryProblems.hasOwnProperty('other') ? (
               categoryProblems['other']?.map((problem: Problem) => {
                 return (
-                  <ProblemItem key={problem.problem_id} problem={problem} />
+                  <ProblemItem
+                    key={problem.problem_id}
+                    problem={problem}
+                    fetchProblems={fetchProblems}
+                  />
                 );
               })
             ) : (
@@ -69,7 +91,11 @@ function ProblemCategory({ categoryName, categoryProblems }: any) {
             {categoryProblems.hasOwnProperty('neetcode') ? (
               categoryProblems['neetcode']?.map((problem: Problem) => {
                 return (
-                  <ProblemItem key={problem.problem_id} problem={problem} />
+                  <ProblemItem
+                    key={problem.problem_id}
+                    problem={problem}
+                    fetchProblems={fetchProblems}
+                  />
                 );
               })
             ) : (
@@ -82,8 +108,22 @@ function ProblemCategory({ categoryName, categoryProblems }: any) {
   );
 }
 
-function ProblemItem({ problem }: any) {
-  const { name, category, difficulty, source, link } = problem || {};
+function ProblemItem({ problem, fetchProblems }: any) {
+  const { problem_id, name, source, link } = problem || {};
+
+  const deleteProblem = async () => {
+    if (!window.confirm(`Are you sure you want to delete "${problem.name}"?`))
+      return;
+
+    await fetch(`${API_URL}/${problem_id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    await fetchProblems();
+  };
 
   return (
     <li className="mt-1">
@@ -95,6 +135,15 @@ function ProblemItem({ problem }: any) {
       >
         {name}
       </a>
+      {source == 'other' && (
+        <button
+          type="button"
+          className="ml-4 text-sm text-indigo-600 hover:font-bold"
+          onClick={deleteProblem}
+        >
+          (delete)
+        </button>
+      )}
     </li>
   );
 }

@@ -21,7 +21,7 @@ export default function FilterProblems({
   return (
     <div className="mt-8 flex gap-8">
       <div className="flex items-center gap-2">
-        <label className="text-lg text-neutral-700">Include Neetcode</label>
+        <label className="text-neutral-700 md:text-lg">Include Neetcode</label>
         <input
           type="checkbox"
           name="neetcode"
@@ -36,7 +36,7 @@ export default function FilterProblems({
         />
       </div>
       <div className="flex items-center gap-2">
-        <label className="text-lg text-neutral-700">
+        <label className="text-neutral-700 md:text-lg">
           Include user-submitted
         </label>
         <input

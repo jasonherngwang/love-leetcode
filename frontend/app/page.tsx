@@ -53,7 +53,7 @@ export default function Home() {
       </p>
       <StartProblem problems={problems} />
       <AddProblem fetchProblems={fetchProblems} />
-      <ProblemList problems={groupedProblems} />
+      <ProblemList problems={groupedProblems} fetchProblems={fetchProblems} />
     </main>
   );
 }
