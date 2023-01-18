@@ -1,4 +1,4 @@
-import Problem from '@/types/types';
+import { Problem } from '@/types/types';
 
 function groupProblems(problems: Problem[]) {
   // The order covered in Capstone

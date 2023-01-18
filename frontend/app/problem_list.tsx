@@ -1,7 +1,7 @@
 'use client';
 
 import { API_URL } from '@/constants';
-import Problem from '@/types/types';
+import { Problem } from '@/types/types';
 
 interface ProblemListProps {
   problems: any;

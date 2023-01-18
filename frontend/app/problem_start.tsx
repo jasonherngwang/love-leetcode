@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import FilterProblems from './problem_filter';
-import Problem from '@/types/types';
+import { Problem } from '@/types/types';
 import Timer from '@/app/timer';
 
 export type Filters = {
