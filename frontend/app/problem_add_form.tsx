@@ -107,7 +107,7 @@ export default function AddProblem({ fetchProblems }: AddProblemProps) {
           <option value="Dynamic Programming">Dynamic Programming</option>
           <option value="General">General</option>
           <option value="Graphs">Graphs</option>
-          <option value="Graphs - Advanced">Graphs - Advanced</option>
+          <option value="Advanced Graphs">Advanced Graphs</option>
           <option value="Greedy">Greedy</option>
           <option value="Heap / Priority Queue">Heap / Priority Queue</option>
           <option value="Intervals">Intervals</option>
