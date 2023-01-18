@@ -33,7 +33,7 @@ export default function Voting() {
     <div className="mt-6 flex flex-col items-center">
       <h3 className="text-sm font-medium text-neutral-600 md:text-lg">
         <span className="text-red-700">Survey: </span>What do you think of
-        Leetcode?
+        LeetCode?
       </h3>
       {votes && (
         <div className="mt-2 flex gap-3">
