@@ -1,4 +1,4 @@
-import { IVote, VoteModel } from '../../models/vote';
+import { VoteModel } from '../../models/vote';
 
 async function getVotes() {
   const votes = await VoteModel.findOne();
