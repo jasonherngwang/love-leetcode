@@ -6,7 +6,7 @@ import express, { Application } from 'express';
 import mongoose from 'mongoose';
 
 import problemRouter from './routes/problems';
-import candidateRouter from './routes/candidates';
+import voteRouter from './routes/vote';
 
 const app: Application = express();
 
@@ -25,7 +25,7 @@ mongoose
   });
 
 app.use('/api/problems', problemRouter);
-app.use('/api/candidates', candidateRouter);
+app.use('/api/votes', voteRouter);
 
 app.listen(3001, () => {
   console.log(`Server running at http://localhost:3001`);
